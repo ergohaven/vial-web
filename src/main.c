@@ -167,6 +167,19 @@ static PyObject* vialglue_fatal_error(PyObject *self, PyObject *args) {
     return PyLong_FromLong(0);
 }
 
+static PyObject * vialglue_save_language(PyObject *self, PyObject *args) {
+    const char *lang;
+
+    if (!PyArg_ParseTuple(args, "s", &lang))
+        return NULL;
+
+    EM_ASM({
+        postMessage({cmd: "save_language", lang: UTF8ToString($0)});
+    }, lang);
+
+    return PyLong_FromLong(0);
+}
+
 static PyMethodDef VialglueMethods[] = {
     {"write_device",  vialglue_write_device, METH_VARARGS, ""},
     {"read_device",  vialglue_read_device, METH_VARARGS, ""},
@@ -178,6 +191,7 @@ static PyMethodDef VialglueMethods[] = {
     {"load_layout",  vialglue_load_layout, METH_VARARGS, ""},
     {"save_layout",  vialglue_save_layout, METH_VARARGS, ""},
     {"fatal_error",  vialglue_fatal_error, METH_VARARGS, ""},
+    {"save_language",  vialglue_save_language, METH_VARARGS, ""},
     {NULL, NULL, 0, NULL}
 };
 
