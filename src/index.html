@@ -266,6 +266,14 @@ body {
     };
 </script>
 
-<script src="main-@UNIQVER@.js"></script>
+<script>
+    if (window.crossOriginIsolated) {
+        var s = document.createElement('script');
+        s.src = 'main-@UNIQVER@.js';
+        document.head.appendChild(s);
+    }
+    // else: coi-serviceworker will reload the page with proper isolation headers
+</script>
 
 </body>
+
