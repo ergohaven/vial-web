@@ -138,6 +138,8 @@ body {
             saveLayout(e.data.layout);
         } else if (e.data.cmd == "fatal_error") {
             alert(e.data.msg);
+        } else if (e.data.cmd == "save_language") {
+            localStorage.setItem("vial_language", e.data.lang);
         }
     }
 
@@ -238,6 +240,13 @@ body {
         _vialglue_set_device_desc(allocateUTF8(JSON.stringify(device_desc)));
 
         btn.value = "Starting up....";
+        // Pass browser locale and user's saved language preference to Python before starting
+        var browserLocale = navigator.language || navigator.userLanguage || "";
+        var savedLang = localStorage.getItem("vial_language") || "__auto__";
+        PThread.runningWorkers[0].postMessage({cmd: "py",
+            payload: "import webmain;webmain.set_browser_locale(" + JSON.stringify(browserLocale) + ")"});
+        PThread.runningWorkers[0].postMessage({cmd: "py",
+            payload: "import webmain;webmain.set_browser_language_pref(" + JSON.stringify(savedLang) + ")"});
         PThread.runningWorkers[0].postMessage({cmd: "py", payload: "import webmain;webmain.main(qtApp)"});
 
         g_animation = setInterval(update_animation, 500);
