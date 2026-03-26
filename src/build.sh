@@ -20,6 +20,8 @@ cp ../coi-serviceworker.js .
 cp -r ../../deps/cpython/builddir/emscripten-browser/usr .
 cp ../../via-keymap-precompiled/via_keyboard_stack.json usr/local/via_keyboards.json
 cp ../../vial-gui/src/main/resources/base/qmk_settings.json usr/local
+mkdir -p usr/local/i18n
+cp ../../vial-gui/src/main/resources/base/i18n/vial_ru.qm usr/local/i18n/
 cp ../../vial-gui/src/build/settings/base.json usr/local/build_settings.json
 cp -r ../../vial-gui/src/main/python/* usr/local/lib/python3.11
 cp ../simpleeval.py usr/local/lib/python3.11
